@@ -1,0 +1,41 @@
+Arby's,Arbys
+Baskin-Robbins,Baskin-Robbins
+Blimpie,Blimpie
+Boston Market,Boston-Market
+Buffalo Wild Wings,Buffalo-Wild-Wings
+Burger King,Burger-King
+Carl's Jr,Carls-Jr
+Chick-fil-A,Chick-fil-A
+Chipotle,Chipotle
+Culvers,Culvers
+Dairy Queen,Dairy-Queen
+Del Taco,Del-Taco
+Domino's Pizza,Dominos-Pizza
+Dunkin Donuts,Dunkin-Donuts
+Five Guys,Five-Guys
+Godfather's Pizza,Godfathers-Pizza
+Hardee's,Hardees
+In-N-Out Burger,In-N-Out-Burger
+Jack in the Box,Jack-in-the-Box
+Jimmy Johns,Jimmy-Johns
+KFC,KFC
+Little Caesars,Little-Caesars
+Long John Silver's,Long-John-Silvers
+McDonald's,McDonalds
+Olive Garden,Olive-Garden
+Panda Express,Panda-Express
+Panera,Panera
+Papa John's,Papa-Johns
+Pizza Hut,Pizza-Hut
+Popeyes,Popeyes
+Quiznos,Quiznos
+Red Lobster,Red-Lobster
+Smashburger,Smashburger
+Sonic,Sonic
+Starbucks,Starbucks
+Subway,Subway
+Taco Bell,Taco-Bell
+Taco John's,Taco-Johns
+Wendy's,Wendys
+Whataburger,Whataburger
+Zaxby's,Zaxbys
