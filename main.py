@@ -1,6 +1,6 @@
-import sys
-import pickle
+import bs4
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup
 
 
@@ -26,10 +26,16 @@ def get_foods(category):
 def food_facts(food):
     info = food.next.next.contents
     name = info[0]
-    cals = info[1].contents[1].strip(" calories")  # Left as string because some are ranges
+    cals = info[-1].contents[1]
+    if type(cals) is bs4.element.NavigableString:
+        cals = cals.strip(" calories")
+    else:
+        cals = ""
     if "-" in cals:
         rng = [int(c) for c in cals.split("-")]
         cal_avg = sum(rng) / 2
+    elif not cals:
+        cal_avg = -1  # No data available
     else:
         cal_avg = int(cals)
     url = food.find(attrs={"class": "listlink"}).attrs["href"]
@@ -37,16 +43,36 @@ def food_facts(food):
     return {"name": name, "info": {"calories": cal_avg, "url": url}}
 
 
+def data_to_frame(data):
+    base_url = r"https://fastfoodnutrition.org"
+    columns = ["Restaurant", "Category", "Item", "URL", "Calories"]
+    df = pd.DataFrame(columns=columns)
+    for r, cats in data.items():
+        for category, items in cats.items():
+            for name, info in items.items():
+                df = df.append({"Restaurant": r, "Category": category, "Item": name,
+                                "URL": base_url + info["url"], "Calories": info["calories"]}, ignore_index=True)
+    return df
+
+
 def main():
+    print("Initializing...")
     base_url = r"https://fastfoodnutrition.org/"
     with open("restaurants.txt") as r:
-        restaurants = {(l := line.split(","))[0]: base_url + l[1] for line in r.readlines()}
+        restaurants = {(l := line.split(","))[0]: base_url + l[1].strip("\n") for line in r.readlines()}
 
+    print("Downloading...")
     dataset = {}
     for restaurant, url in restaurants.items():
         categories = get_categories(url)
         dataset.update({restaurant: {(f := get_foods(cat))["name"]: f["foods"] for cat in categories}})
 
+    print("Saving...")
+    df = data_to_frame(dataset)
+
+    df.to_excel("Nutritional Facts.xlsx")
+
+    print("Finished!")
     return 0
 
 
