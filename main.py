@@ -1,4 +1,4 @@
-import bs4
+import time
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -18,61 +18,69 @@ def get_categories(url):
 
 def get_foods(category):
     cat_name = category.a.h2.text
-    food_cats = category.find_all(attrs={"class": "filter_target"})
-    foods = {(food := food_facts(f))["name"]: food["info"] for f in food_cats}
-    return {"name": cat_name, "foods": foods}
+    cat_foods = category.find_all(attrs={"class": "filter_target"})
+    foods_df = pd.DataFrame()
+    print("\t", cat_name)
+    for food in cat_foods:
+        f_facts = food_facts(food)
+        f_facts["Category"] = cat_name
+        foods_df = foods_df.append(f_facts)
+    return foods_df
 
 
 def food_facts(food):
-    info = food.next.next.contents
-    name = info[0]
-    cals = info[-1].contents[1]
-    if type(cals) is bs4.element.NavigableString:
-        cals = cals.strip(" calories")
-    else:
-        cals = ""
-    if "-" in cals:
-        rng = [int(c) for c in cals.split("-")]
-        cal_avg = sum(rng) / 2
-    elif not cals:
-        cal_avg = -1  # No data available
-    else:
-        cal_avg = int(cals)
+    name = food.next.next.contents[0].strip(" ")
     url = food.find(attrs={"class": "listlink"}).attrs["href"]
-    # TODO: Call create_food(url) once implemented
-    return {"name": name, "info": {"calories": cal_avg, "url": url}}
+    food_nutrition = food_info(url).transpose()
+    food_nutrition["Food"] = name
+    food_nutrition["URL"] = url
+    print("\t\t", name)
+    return food_nutrition
 
 
-def data_to_frame(data):
-    base_url = r"https://fastfoodnutrition.org"
-    columns = ["Restaurant", "Category", "Item", "URL", "Calories"]
-    df = pd.DataFrame(columns=columns)
-    for r, cats in data.items():
-        for category, items in cats.items():
-            for name, info in items.items():
-                df = df.append({"Restaurant": r, "Category": category, "Item": name,
-                                "URL": base_url + info["url"], "Calories": info["calories"]}, ignore_index=True)
+def food_info(food_url):
+    url = r"https://fastfoodnutrition.org" + food_url
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
+    r = requests.get(url, headers=headers)
+    df = pd.read_html(r.text)[0]
+    df.index = df[0]
+    df = df.loc[df.index.dropna()]
+    percents = df.drop([0, 1], axis=1)
+    df.drop([0, 2], axis=1, inplace=True)
+    df.columns = ["Values"]
+    df.dropna(how="any", inplace=True)
+    for entry, value in percents.iterrows():
+        if not value.isnull().iloc[0] and "%" in value.iloc[0]:
+            new_entry = pd.Series(name=f"{entry} %", index=["Values"], data=value.iloc[0])
+            df = df.append(new_entry)
+
+    df.index.name = "Nutrient"
     return df
 
 
 def main():
+    start = time.time()
     print("Initializing...")
     base_url = r"https://fastfoodnutrition.org/"
     with open("restaurants.txt") as r:
         restaurants = {(l := line.split(","))[0]: base_url + l[1].strip("\n") for line in r.readlines()}
 
     print("Downloading...")
-    dataset = {}
+    dataset = pd.DataFrame()
     for restaurant, url in restaurants.items():
+        print(restaurant)
         categories = get_categories(url)
-        dataset.update({restaurant: {(f := get_foods(cat))["name"]: f["foods"] for cat in categories}})
+        for cat in categories:
+            foods = get_foods(cat)
+            foods["Restaurant"] = restaurant
+            dataset = dataset.append(foods)
+        if restaurant == "Arby\'s":
+            break
 
     print("Saving...")
-    df = data_to_frame(dataset)
+    dataset.to_excel("Nutritional Facts.xlsx")
 
-    df.to_excel("Nutritional Facts.xlsx")
-
-    print("Finished!")
+    print(f"Finished in {time.time() - start} seconds!")
     return 0
 
 
