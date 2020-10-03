@@ -1,10 +1,11 @@
 import time
+import bs4
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
 
-def get_categories(url):
+def get_categories(url: str) -> bs4.element.ResultSet:
     """Each restaurants dishes are grouped into categories such as Sandwiches, Beverages, etc."""
     try:
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
@@ -13,11 +14,10 @@ def get_categories(url):
         print("The supplied URL is invalid. Please update and run again.")
         raise Exception("InvalidURL")
     soup = BeautifulSoup(r.text, 'html.parser')
-    print("Get categories: ", type(soup.find_all(attrs={"class": "category"})))
     return soup.find_all(attrs={"class": "category"})
 
 
-def get_foods(category):
+def get_foods(category: bs4.element.Tag) -> pd.DataFrame:
     """Fetches all entries within a food category"""
     cat_name = category.a.h2.text
     cat_foods = category.find_all(attrs={"class": "filter_target"})
@@ -30,7 +30,7 @@ def get_foods(category):
     return foods_df
 
 
-def food_facts(food):
+def food_facts(food: bs4.element.Tag) -> pd.DataFrame:
     """Assembles the nutritional information for a particular food"""
     name = food.next.next.contents[0].strip(" ")
     url = food.find(attrs={"class": "listlink"}).attrs["href"]
@@ -41,7 +41,7 @@ def food_facts(food):
     return food_nutrition
 
 
-def food_info(food_url):
+def food_info(food_url: str) -> pd.DataFrame:
     """Fetches the nutritional details for a food, given it's URL"""
     url = r"https://fastfoodnutrition.org" + food_url
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
