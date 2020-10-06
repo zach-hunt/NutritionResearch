@@ -25,9 +25,9 @@ def get_foods(category: bs4.element.Tag, log_file=None) -> pd.DataFrame:
     log(cat_name, "Category", log_file)
     for food in cat_foods:
         f_facts = food_facts(food, log_file)
-        for food in f_facts:
-            food["Category"] = cat_name
-            foods_df = foods_df.append(food)
+        for sub_food in f_facts:
+            sub_food["Category"] = cat_name
+            foods_df = foods_df.append(sub_food)
     return foods_df
 
 
@@ -88,7 +88,7 @@ def food_info(food_url: str) -> pd.DataFrame:
 
 def get_restaurants(base_url: str, source_filename) -> dict:
     with open(source_filename, "r") as r:
-        restaurants = {(l := line.split(","))[0]: base_url + l[1].strip("\n") for line in r.readlines()}
+        restaurants = {(splitline := line.split(","))[0]: base_url + splitline[1].strip("\n") for line in r.readlines()}
     return restaurants
 
 
@@ -106,7 +106,8 @@ def star_drink_facts(food_info: bs4.element.Tag) -> pd.DataFrame:
         links = [milk.attrs['href'] for milk in milk_soup.find_all(attrs={"class": "large_list_item"})]
         for link in links:
             r = requests.get(base_url + link, headers=headers)
-            drink_soup = BeautifulSoup(r.text, 'html.parser')  # FIXME: Clean this up so food_facts actually receives food text!
+            drink_soup = BeautifulSoup(r.text, 'html.parser')
+            # FIXME: Clean this up so food_facts actually receives food text!
             for drink in food_facts(drink_soup):
                 drinks = drinks.append(drink)
 
