@@ -21,7 +21,7 @@ Jimmy Johns,Jimmy-Johns
 KFC,KFC
 Little Caesars,Little-Caesars
 Long John Silver's,Long-John-Silvers
-McDonald's,McDonalds
+#McDonald's,McDonalds
 Olive Garden,Olive-Garden
 Panda Express,Panda-Express
 Panera,Panera
