@@ -32,7 +32,7 @@ Quiznos,Quiznos
 Red Lobster,Red-Lobster
 Smashburger,Smashburger
 Sonic,Sonic
-Starbucks,Starbucks
+#Starbucks,Starbucks
 Subway,Subway
 Taco Bell,Taco-Bell
 Taco John's,Taco-Johns
