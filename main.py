@@ -17,32 +17,32 @@ def get_categories(url: str) -> bs4.element.ResultSet:
     return soup.find_all(attrs={"class": "category"})
 
 
-def get_foods(category: bs4.element.Tag) -> pd.DataFrame:
+def get_foods(category: bs4.element.Tag, log_file=None) -> pd.DataFrame:
     """Fetches all entries within a food category"""
     cat_name = category.a.h2.text
     cat_foods = category.find_all(attrs={"class": "filter_target"})
     foods_df = pd.DataFrame()
-    print("\t", cat_name)
+    log(cat_name, "Category", log_file)
     for food in cat_foods:
-        f_facts = food_facts(food)
+        f_facts = food_facts(food, log_file)
         for food in f_facts:
             food["Category"] = cat_name
             foods_df = foods_df.append(food)
     return foods_df
 
 
-def food_facts(food: bs4.element.Tag) -> list:
+def food_facts(food: bs4.element.Tag, log_file=None) -> list:
     """Assembles the nutritional information for a particular food"""
-    name = food.next.next.contents[0].strip(" ")
+    name = food.next.next.contents[0].strip(" ")  # TODO: This is where the None fails.
     base_url = r"https://fastfoodnutrition.org"
     urls = [food.find(attrs={"class": "listlink"}).attrs["href"]]
     table_exists = True
     try:
         food_nutrition = [food_info(urls[0]).transpose()]
     except ValueError:
-        food = food.find(attrs={"class": "listlink"}).contents
-        name = food[0]
-        cals = food[1].contents[1].strip(" calories")
+        food_c = food.find(attrs={"class": "listlink"}).contents
+        name = food_c[0]
+        cals = food_c[1].contents[1].strip(" calories")
         food_nutrition = [pd.DataFrame(data=[[name, cals]], columns=["Food", "Calories"], index=["Value"])]
         table_exists = False
     if table_exists and food_nutrition[0].size <= 6:
@@ -58,7 +58,7 @@ def food_facts(food: bs4.element.Tag) -> list:
         f_name += ", " + urls[i].split("/")[-1] if len(food_nutrition) > 1 else ""
         f_info["Food"] = f_name
         f_info["URL"] = base_url + urls[i]
-    print("\t\t", name)
+    log(name, "Food", log_file)
     return food_nutrition
 
 
@@ -86,40 +86,128 @@ def food_info(food_url: str) -> pd.DataFrame:
     return df
 
 
-def main():
-    rebuild = True
-    if rebuild:
-        print("Initializing...")
-        start = time.time()
-        base_url = r"https://fastfoodnutrition.org/"
-        with open("restaurants.txt") as r:
-            restaurants = {(l := line.split(","))[0]: base_url + l[1].strip("\n") for line in r.readlines()}
-        print("Downloading...")
-        dataset = pd.DataFrame()
-        for restaurant, url in restaurants.items():
-            print(restaurant)
-            categories = get_categories(url)
-            for cat in categories:
-                foods = get_foods(cat)
-                foods["Restaurant"] = restaurant
-                dataset = dataset.append(foods)
+def get_restaurants(base_url: str, source_filename) -> dict:
+    with open(source_filename, "r") as r:
+        restaurants = {(l := line.split(","))[0]: base_url + l[1].strip("\n") for line in r.readlines()}
+    return restaurants
 
-        # Final Cleanup: resetting index and re-ordering columns
-        dataset = dataset.reset_index().drop("index", axis=1)
-        cols = ['Restaurant', 'Category', 'Food', 'Serving Size',
-                'Calories From Fat', 'Calories', 'Total Fat', 'Saturated Fat', 'Trans Fat',
-                'Cholesterol', 'Sodium', 'Total Carbohydrates', 'Dietary Fiber', 'Sugars', 'Protein',
-                'Total Fat %', 'Saturated Fat %', 'Cholesterol %', 'Sodium %', 'Total Carbohydrates %',
-                'Dietary Fiber %', 'Protein %', 'Vitamin A %', 'URL']
-        dataset = dataset.reindex(columns=cols)
-        print("Saving...")
-        dataset.to_excel("Nutritional Facts.xlsx")
-        print(f"Finished in {time.time() - start} seconds!")
+
+def star_drink_facts(food_info: bs4.element.Tag) -> pd.DataFrame:
+    drinks = pd.DataFrame()
+    try:
+        for food in food_facts(food_info):
+            drinks = drinks.append(food)
+    except TypeError:
+        base_url = "https://fastfoodnutrition.org"
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
+        url = food_info.find(attrs={"class": "listlink"}).attrs["href"]
+        r = requests.get(base_url + url, headers=headers)
+        milk_soup = BeautifulSoup(r.text, 'html.parser')
+        links = [milk.attrs['href'] for milk in milk_soup.find_all(attrs={"class": "large_list_item"})]
+        for link in links:
+            r = requests.get(base_url + link, headers=headers)
+            drink_soup = BeautifulSoup(r.text, 'html.parser')  # FIXME: Clean this up so food_facts actually receives food text!
+            for drink in food_facts(drink_soup):
+                drinks = drinks.append(drink)
+
+    return drinks
+
+
+def starbucks(url: str, log_file=None) -> pd.DataFrame:
+    categories = get_categories(url)
+    items = pd.DataFrame()
+    for cat in categories:
+        cat_name = cat.a.h2.text
+        cat_foods = cat.find_all(attrs={"class": "filter_target"})
+        log(cat_name, "Category", log_file)
+        for food in cat_foods:
+            f_facts = star_drink_facts(food)
+            f_facts.insert(f_facts.shape[1], "Category", cat_name)
+            items = items.append(f_facts)
+        items["Restaurant"] = "Starbucks"
+    return items
+
+
+def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
+    if log_filename:
+        log_file = open(log_filename, "w")
     else:
-        dataset = pd.read_excel("Nutritional Facts.xlsx")
+        log_file = None
+    dataset = pd.DataFrame()
+    skips = {}
+    special_cases = {}  # {"Starbucks": starbucks}
+    for restaurant, url in restaurants.items():
+        if restaurant[0] == "#":
+            skips.update({restaurant: url})
+            continue
+        log(restaurant, "Restaurant", log_file)
+        print(restaurant)
+        categories = get_categories(url)
+        for cat in categories:
+            foods = get_foods(cat, log_file)
+            foods["Restaurant"] = restaurant
+            dataset = dataset.append(foods)
+    for restaurant, url in skips.items():
+        if restaurant[1:] in special_cases.keys():
+            special_row = special_cases[restaurant[1:]](url, log_file)
+            dataset = dataset.append(special_row)
+        else:
+            log(f"\n\nCannot handle special case {restaurant}: "
+                "no function defined in special_cases. Make sure the cases match.", "", log_file)
+    if log_filename:
+        log_file.close()
+    return dataset
 
-    return 0
+
+def clean_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
+    data = dataset.reset_index().drop("index", axis=1)
+    cols = ['Restaurant', 'Category', 'Food', 'Serving Size',
+            'Calories From Fat', 'Calories', 'Total Fat', 'Saturated Fat', 'Trans Fat',
+            'Cholesterol', 'Sodium', 'Total Carbohydrates', 'Dietary Fiber', 'Sugars', 'Protein',
+            'Total Fat %', 'Saturated Fat %', 'Cholesterol %', 'Sodium %', 'Total Carbohydrates %',
+            'Dietary Fiber %', 'Protein %', 'Vitamin A %', 'URL']
+    data = data.reindex(columns=cols)
+    return data
+
+
+def log(text: str, ttype: str, log_file=None) -> None:
+    log_prefixes = {"Restaurant": "### ", "Category": "- ", "Food": "\t* "}
+    print_prefixes = {"Restaurant": "", "Category": "\t", "Food": "\t\t"}
+    if log_file is None:
+        if ttype in print_prefixes.keys():
+            print(print_prefixes[ttype] + text)
+        else:
+            print(text)
+    else:
+        if ttype in log_prefixes.keys():
+            print(log_prefixes[ttype] + text, file=log_file)
+        else:
+            print(text, file=log_file)
+
+
+def main(rebuild=False):
+    if not rebuild:
+        data = pd.read_excel("Nutritional Facts.xlsx")
+        return data
+
+    print("Initializing...")
+    start = time.time()
+    base_url = r"https://fastfoodnutrition.org/"
+    filename = "restaurants.txt"
+    restaurants = get_restaurants(base_url, filename)
+
+    print("Downloading...")
+    dataset = build_dataset(restaurants, "Foods Log.md")
+
+    # Final Cleanup: resetting index and re-ordering columns
+    data = clean_dataset(dataset)
+
+    print("Saving...")
+    data.to_excel("Nutritional Facts.xlsx")
+    print(f"Finished in {time.time() - start} seconds!")
+
+    return data
 
 
 if __name__ == "__main__":
-    main()
+    main(True)
