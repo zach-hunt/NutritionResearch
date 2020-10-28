@@ -1,2 +1,6 @@
+# PyCharm
 .idea/
-.GuorbiPy Examples/
+
+# Jupyter
+".GuorbiPy Examples/"
+.ipynb_checkpoints
