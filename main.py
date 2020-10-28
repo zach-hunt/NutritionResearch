@@ -33,7 +33,8 @@ def get_foods(category: bs4.element.Tag, log_file=None) -> pd.DataFrame:
 
 def food_facts(food: bs4.element.Tag, log_file=None) -> list:
     """Assembles the nutritional information for a particular food"""
-    name = food.next.next.contents[0].strip(" ")  # TODO: This is where the None fails.
+    # TODO: This is where the None fails for Starbucks (milk) and McDonalds (pictures)
+    name = food.next.next.contents[0].strip(" ")
     base_url = r"https://fastfoodnutrition.org"
     urls = [food.find(attrs={"class": "listlink"}).attrs["href"]]
     table_exists = True
