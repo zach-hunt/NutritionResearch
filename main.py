@@ -172,7 +172,8 @@ def mcdonalds(url: str, log_file=None) -> pd.DataFrame:
             f_facts["Food"] = f_name
             f_facts["URL"] = food_url
             items = items.append(f_facts)
-        items["Restaurant"] = "McDonald's"
+    items["Restaurant"] = "McDonald's"
+    items.drop(["Amount Per Serving"], axis=1, inplace=True)
     return items
 
 
@@ -200,6 +201,7 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
     for restaurant, url in skips.items():
         if restaurant[1:] in special_cases.keys():
             special_row = special_cases[restaurant[1:]](url, log_file)
+            special_row.rename(columns={col: col.replace("Pct", "%") for col in special_row.columns}, inplace=True)
             dataset = dataset.append(special_row)
         else:
             log(f"\n\nCannot handle special case {restaurant}: "
@@ -210,7 +212,9 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
 
 
 def clean_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
-    data = dataset.reset_index().drop("index", axis=1) if "index" in dataset.columns else dataset
+    data = dataset.reset_index()
+    if "index" in data.columns:
+        data.drop("index", axis=1, inplace=True)
     cols = ['Restaurant', 'Category', 'Food', 'Serving Size',
             'Calories From Fat', 'Calories', 'Total Fat', 'Saturated Fat', 'Trans Fat',
             'Cholesterol', 'Sodium', 'Total Carbohydrates', 'Dietary Fiber', 'Sugars', 'Protein',
