@@ -130,6 +130,52 @@ def starbucks(url: str, log_file=None) -> pd.DataFrame:
     return items
 
 
+def mc_food_info(url: str):
+    """Fetches the nutritional details for a McDonald's food item, given it's URL"""
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
+    r = requests.get(url, headers=headers)
+    try:
+        df = pd.read_html(r.text)[0]
+    except ValueError:
+        raise ValueError("No Nutritional Information")
+    df.index = df[0]
+    df = df.loc[df.index.dropna()]
+    percents = df.drop([0, 1], axis=1)
+    df.drop([0, 2], axis=1, inplace=True)
+    df.columns = ["Values"]
+    df.dropna(how="any", inplace=True)
+    for entry, value in percents.iterrows():
+        if not value.isnull().iloc[0] and "%" in value.iloc[0]:
+            new_entry = pd.Series(name=f"{entry} Pct", index=["Values"], data=value.iloc[0])
+            df = df.append(new_entry)
+
+    df.index.name = "Nutrient"
+    return df
+
+
+def mcdonalds(url: str, log_file=None) -> pd.DataFrame:
+    categories = get_categories(url)
+    items = pd.DataFrame()
+    for cat in categories:
+        cat_name = cat.a.h2.text
+        cat_foods = cat.find_all(attrs={"class": "filter_target"})
+        log(cat_name, "Category", log_file)
+        for food in cat_foods:
+            f_name = food.attrs["title"]  # TODO: This was extracting data correctly, but stopped.
+            if len(food.contents[0].attrs) == 1:
+                url = food.contents[0].contents[0].attrs["href"]
+            else:
+                url = food.contents[0].attrs["href"]
+            food_url = "https://fastfoodnutrition.org" + url
+            f_facts = mc_food_info(food_url).T
+            f_facts.insert(f_facts.shape[1], "Category", cat_name)
+            f_facts["Food"] = f_name
+            f_facts["URL"] = food_url
+            items = items.append(f_facts)
+        items["Restaurant"] = "McDonald's"
+    return items
+
+
 def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
     if log_filename:
         log_file = open(log_filename, "w")
@@ -137,11 +183,13 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
         log_file = None
     dataset = pd.DataFrame()
     skips = {}
-    special_cases = {}  # {"Starbucks": starbucks}
+    special_cases = {"McDonald's": mcdonalds}  # {"Starbucks": starbucks}
     for restaurant, url in restaurants.items():
         if restaurant[0] == "#":
             skips.update({restaurant: url})
             continue
+        else:
+            continue  # Intentionally skipping non special cases
         log(restaurant, "Restaurant", log_file)
         print(restaurant)
         categories = get_categories(url)
@@ -162,7 +210,7 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
 
 
 def clean_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
-    data = dataset.reset_index().drop("index", axis=1)
+    data = dataset.reset_index().drop("index", axis=1) if "index" in dataset.columns else dataset
     cols = ['Restaurant', 'Category', 'Food', 'Serving Size',
             'Calories From Fat', 'Calories', 'Total Fat', 'Saturated Fat', 'Trans Fat',
             'Cholesterol', 'Sodium', 'Total Carbohydrates', 'Dietary Fiber', 'Sugars', 'Protein',
@@ -205,7 +253,7 @@ def main(rebuild=False):
     data = clean_dataset(dataset)
 
     print("Saving...")
-    data.to_excel("Nutritional Facts.xlsx")
+    data.to_excel("Nutritional Facts - Specials.xlsx")
     print(f"Finished in {time.time() - start} seconds!")
 
     return data
