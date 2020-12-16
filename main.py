@@ -150,30 +150,47 @@ def mc_food_info(url: str):
             df = df.append(new_entry)
 
     df.index.name = "Nutrient"
+    food_name = pd.Series(BeautifulSoup(r.text, features="lxml").h2.text.strip(" Calories"), ["Values"], name="Food")
+    df = df.append(food_name)
     return df
 
 
 def mcdonalds(url: str, log_file=None) -> pd.DataFrame:
     categories = get_categories(url)
     items = pd.DataFrame()
+    base_url = r"https://fastfoodnutrition.org"
     for cat in categories:
         cat_name = cat.a.h2.text
         cat_foods = cat.find_all(attrs={"class": "filter_target"})
         log(cat_name, "Category", log_file)
         for food in cat_foods:
-            f_name = food.attrs["title"]  # TODO: This was extracting data correctly, but stopped.
             if len(food.contents[0].attrs) == 1:
                 url = food.contents[0].contents[0].attrs["href"]
             else:
                 url = food.contents[0].attrs["href"]
-            food_url = "https://fastfoodnutrition.org" + url
-            f_facts = mc_food_info(food_url).T
+            food_url = base_url + url
+            f_facts = mc_food_info(food_url)
+            if len(f_facts) < 10:  # Subcategories
+                headers = {"User-Agent":
+                           "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
+                r = requests.get(food_url, headers=headers)
+                soup = BeautifulSoup(r.text, features='lxml')
+                options = soup.find_all(attrs={"class": "stub_box"})
+                urls = [base_url + option.attrs["href"] for option in options]
+                f_facts = pd.DataFrame()
+                for url in urls:
+                    new_f_facts = mc_food_info(url).T
+                    new_f_facts["URL"] = url
+                    f_facts = f_facts.append(new_f_facts)
+            else:
+                f_facts = f_facts.T
+                f_facts["URL"] = food_url
+                # f_facts["Food"] = f_name  # TODO: Implement inside mc_food_info()
             f_facts.insert(f_facts.shape[1], "Category", cat_name)
-            f_facts["Food"] = f_name
-            f_facts["URL"] = food_url
             items = items.append(f_facts)
     items["Restaurant"] = "McDonald's"
-    items.drop(["Amount Per Serving"], axis=1, inplace=True)
+    if "Amount Per Serving" in items.columns:
+        items.drop(["Amount Per Serving"], axis=1, inplace=True)
     return items
 
 
@@ -184,7 +201,7 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
         log_file = None
     dataset = pd.DataFrame()
     skips = {}
-    special_cases = {"McDonald's": mcdonalds}  # {"Starbucks": starbucks}
+    special_cases = {"Starbucks": mcdonalds, "McDonald's": mcdonalds}
     for restaurant, url in restaurants.items():
         if restaurant[0] == "#":
             skips.update({restaurant: url})
@@ -198,7 +215,7 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
             foods = get_foods(cat, log_file)
             foods["Restaurant"] = restaurant
             dataset = dataset.append(foods)
-    for restaurant, url in skips.items():
+    for restaurant, url in skips.items():  # TODO:
         if restaurant[1:] in special_cases.keys():
             special_row = special_cases[restaurant[1:]](url, log_file)
             special_row.rename(columns={col: col.replace("Pct", "%") for col in special_row.columns}, inplace=True)
