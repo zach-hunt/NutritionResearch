@@ -34,7 +34,10 @@ def get_foods(category: bs4.element.Tag, log_file=None) -> pd.DataFrame:
 def food_facts(food: bs4.element.Tag, log_file=None) -> list:
     """Assembles the nutritional information for a particular food"""
     # TODO: This is where the None fails for Starbucks (milk) and McDonalds (pictures)
-    name = food.next.next.contents[0].strip(" ")
+    try:
+        name = food.next.next.contents[0].strip(" ")
+    except TypeError:
+        raise AttributeError("These foods have pictures and need to be special-cased")
     base_url = r"https://fastfoodnutrition.org"
     urls = [food.find(attrs={"class": "listlink"}).attrs["href"]]
     table_exists = True
@@ -201,13 +204,13 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
         log_file = None
     dataset = pd.DataFrame()
     skips = {}
-    special_cases = {"Starbucks": mcdonalds, "McDonald's": mcdonalds}
+    special_cases = {"Chick-fil-A": mcdonalds, "McDonald's": mcdonalds}  # "Starbucks": starbucks}
     for restaurant, url in restaurants.items():
         if restaurant[0] == "#":
             skips.update({restaurant: url})
             continue
         else:
-            continue  # Intentionally skipping non special cases
+            continue
         log(restaurant, "Restaurant", log_file)
         print(restaurant)
         categories = get_categories(url)
@@ -215,7 +218,7 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
             foods = get_foods(cat, log_file)
             foods["Restaurant"] = restaurant
             dataset = dataset.append(foods)
-    for restaurant, url in skips.items():  # TODO:
+    for restaurant, url in skips.items():
         if restaurant[1:] in special_cases.keys():
             special_row = special_cases[restaurant[1:]](url, log_file)
             special_row.rename(columns={col: col.replace("Pct", "%") for col in special_row.columns}, inplace=True)

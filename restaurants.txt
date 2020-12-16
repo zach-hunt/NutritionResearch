@@ -5,7 +5,7 @@ Boston Market,Boston-Market
 Buffalo Wild Wings,Buffalo-Wild-Wings
 Burger King,Burger-King
 Carl's Jr,Carls-Jr
-Chick-fil-A,Chick-fil-A
+#Chick-fil-A,Chick-fil-A
 Chipotle,Chipotle
 Culvers,Culvers
 Dairy Queen,Dairy-Queen
