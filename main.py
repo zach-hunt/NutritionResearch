@@ -17,23 +17,22 @@ def get_categories(url: str) -> bs4.element.ResultSet:
     return soup.find_all(attrs={"class": "category"})
 
 
-def get_foods(category: bs4.element.Tag, log_file=None) -> pd.DataFrame:
+def get_foods(category: bs4.element.Tag, log_file=None, v: bool = True) -> pd.DataFrame:
     """Fetches all entries within a food category"""
     cat_name = category.a.h2.text
     cat_foods = category.find_all(attrs={"class": "filter_target"})
     foods_df = pd.DataFrame()
-    log(cat_name, "Category", log_file)
+    log(cat_name, "Category", log_file, v)
     for food in cat_foods:
-        f_facts = food_facts(food, log_file)
+        f_facts = food_facts(food, log_file, v)
         for sub_food in f_facts:
             sub_food["Category"] = cat_name
             foods_df = foods_df.append(sub_food)
     return foods_df
 
 
-def food_facts(food: bs4.element.Tag, log_file=None) -> list:
+def food_facts(food: bs4.element.Tag, log_file=None, v: bool = True) -> list:
     """Assembles the nutritional information for a particular food"""
-    # TODO: This is where the None fails for Starbucks (milk) and McDonalds (pictures)
     try:
         name = food.next.next.contents[0].strip(" ")
     except TypeError:
@@ -62,7 +61,7 @@ def food_facts(food: bs4.element.Tag, log_file=None) -> list:
         f_name += ", " + urls[i].split("/")[-1] if len(food_nutrition) > 1 else ""
         f_info["Food"] = f_name
         f_info["URL"] = base_url + urls[i]
-    log(name, "Food", log_file)
+    log(name, "Food", log_file, v)
     return food_nutrition
 
 
@@ -96,15 +95,15 @@ def get_restaurants(base_url: str, source_filename) -> dict:
     return restaurants
 
 
-def star_drink_facts(food_info: bs4.element.Tag) -> pd.DataFrame:
+def star_drink_facts(food_inf: bs4.element.Tag) -> pd.DataFrame:
     drinks = pd.DataFrame()
     try:
-        for food in food_facts(food_info):
+        for food in food_facts(food_inf):
             drinks = drinks.append(food)
     except TypeError:
         base_url = "https://fastfoodnutrition.org"
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
-        url = food_info.find(attrs={"class": "listlink"}).attrs["href"]
+        url = food_inf.find(attrs={"class": "listlink"}).attrs["href"]
         r = requests.get(base_url + url, headers=headers)
         milk_soup = BeautifulSoup(r.text, 'html.parser')
         links = [milk.attrs['href'] for milk in milk_soup.find_all(attrs={"class": "large_list_item"})]
@@ -118,13 +117,13 @@ def star_drink_facts(food_info: bs4.element.Tag) -> pd.DataFrame:
     return drinks
 
 
-def starbucks(url: str, log_file=None) -> pd.DataFrame:
+def starbucks(url: str, log_file=None, v: bool=True) -> pd.DataFrame:
     categories = get_categories(url)
     items = pd.DataFrame()
     for cat in categories:
         cat_name = cat.a.h2.text
         cat_foods = cat.find_all(attrs={"class": "filter_target"})
-        log(cat_name, "Category", log_file)
+        log(cat_name, "Category", log_file, v)
         for food in cat_foods:
             f_facts = star_drink_facts(food)
             f_facts.insert(f_facts.shape[1], "Category", cat_name)
@@ -133,8 +132,8 @@ def starbucks(url: str, log_file=None) -> pd.DataFrame:
     return items
 
 
-def mc_food_info(url: str):
-    """Fetches the nutritional details for a McDonald's food item, given it's URL"""
+def pic_food_info(url: str, log_file=None, v: bool=True):
+    """Fetches the nutritional details for a food item with a picture, given it's URL"""
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
     r = requests.get(url, headers=headers)
     try:
@@ -153,26 +152,30 @@ def mc_food_info(url: str):
             df = df.append(new_entry)
 
     df.index.name = "Nutrient"
-    food_name = pd.Series(BeautifulSoup(r.text, features="lxml").h2.text.strip(" Calories"), ["Values"], name="Food")
-    df = df.append(food_name)
+    food_name = BeautifulSoup(r.text, features="lxml").h2.text
+    food_name = food_name.replace("Calories", "").strip(" ") if "Calories" in food_name else food_name.strip(" ")
+    food_name_series = pd.Series(food_name, ["Values"], name="Food")
+    df = df.append(food_name_series)
+    if len(df) >= 10:
+        log(food_name, "Food", log_file, v)
     return df
 
 
-def mcdonalds(url: str, log_file=None) -> pd.DataFrame:
+def pictured(url: str, log_file=None, v: bool = True) -> pd.DataFrame:
     categories = get_categories(url)
     items = pd.DataFrame()
     base_url = r"https://fastfoodnutrition.org"
     for cat in categories:
         cat_name = cat.a.h2.text
         cat_foods = cat.find_all(attrs={"class": "filter_target"})
-        log(cat_name, "Category", log_file)
+        log(cat_name, "Category", log_file, v)
         for food in cat_foods:
             if len(food.contents[0].attrs) == 1:
                 url = food.contents[0].contents[0].attrs["href"]
             else:
                 url = food.contents[0].attrs["href"]
             food_url = base_url + url
-            f_facts = mc_food_info(food_url)
+            f_facts = pic_food_info(food_url, log_file)
             if len(f_facts) < 10:  # Subcategories
                 headers = {"User-Agent":
                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
@@ -182,46 +185,45 @@ def mcdonalds(url: str, log_file=None) -> pd.DataFrame:
                 urls = [base_url + option.attrs["href"] for option in options]
                 f_facts = pd.DataFrame()
                 for url in urls:
-                    new_f_facts = mc_food_info(url).T
+                    new_f_facts = pic_food_info(url, log_file, v).T
                     new_f_facts["URL"] = url
                     f_facts = f_facts.append(new_f_facts)
             else:
                 f_facts = f_facts.T
                 f_facts["URL"] = food_url
-                # f_facts["Food"] = f_name  # TODO: Implement inside mc_food_info()
             f_facts.insert(f_facts.shape[1], "Category", cat_name)
             items = items.append(f_facts)
-    items["Restaurant"] = "McDonald's"
     if "Amount Per Serving" in items.columns:
         items.drop(["Amount Per Serving"], axis=1, inplace=True)
     return items
 
 
-def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
+def build_dataset(restaurants: dict, log_filename=None, v: bool = True) -> pd.DataFrame:
     if log_filename:
         log_file = open(log_filename, "w")
     else:
         log_file = None
     dataset = pd.DataFrame()
     skips = {}
-    special_cases = {"Chick-fil-A": mcdonalds, "McDonald's": mcdonalds}  # "Starbucks": starbucks}
+    special_cases = {"Chick-fil-A": pictured, "McDonald's": pictured}  # "Starbucks": starbucks}
     for restaurant, url in restaurants.items():
         if restaurant[0] == "#":
             skips.update({restaurant: url})
             continue
-        else:
-            continue
-        log(restaurant, "Restaurant", log_file)
-        print(restaurant)
+        # else:
+        #     continue
+        log(restaurant, "Restaurant", log_file, v)
         categories = get_categories(url)
         for cat in categories:
-            foods = get_foods(cat, log_file)
+            foods = get_foods(cat, log_file, v)
             foods["Restaurant"] = restaurant
             dataset = dataset.append(foods)
     for restaurant, url in skips.items():
-        if restaurant[1:] in special_cases.keys():
-            special_row = special_cases[restaurant[1:]](url, log_file)
+        if (res := restaurant[1:]) in special_cases.keys():
+            log(res, "Restaurant", log_file, v)
+            special_row = special_cases[res](url, log_file, v)
             special_row.rename(columns={col: col.replace("Pct", "%") for col in special_row.columns}, inplace=True)
+            special_row["Restaurant"] = res
             dataset = dataset.append(special_row)
         else:
             log(f"\n\nCannot handle special case {restaurant}: "
@@ -231,7 +233,7 @@ def build_dataset(restaurants: dict, log_filename=None) -> pd.DataFrame:
     return dataset
 
 
-def clean_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
+def clean_dataset(dataset: pd.DataFrame, drop_null=True) -> pd.DataFrame:
     data = dataset.reset_index()
     if "index" in data.columns:
         data.drop("index", axis=1, inplace=True)
@@ -241,18 +243,20 @@ def clean_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
             'Total Fat %', 'Saturated Fat %', 'Cholesterol %', 'Sodium %', 'Total Carbohydrates %',
             'Dietary Fiber %', 'Protein %', 'Vitamin A %', 'URL']
     data = data.reindex(columns=cols)
+    if drop_null:
+        data.drop(data[data["Calories"] == "?"].index, inplace=True)
     return data
 
 
-def log(text: str, ttype: str, log_file=None) -> None:
+def log(text: str, ttype: str, log_file=None, log_console=True) -> None:
     log_prefixes = {"Restaurant": "### ", "Category": "- ", "Food": "\t* "}
     print_prefixes = {"Restaurant": "", "Category": "\t", "Food": "\t\t"}
-    if log_file is None:
+    if log_file is None or log_console:
         if ttype in print_prefixes.keys():
             print(print_prefixes[ttype] + text)
         else:
             print(text)
-    else:
+    if log_file is not None:
         if ttype in log_prefixes.keys():
             print(log_prefixes[ttype] + text, file=log_file)
         else:
@@ -271,13 +275,14 @@ def main(rebuild=False):
     restaurants = get_restaurants(base_url, filename)
 
     print("Downloading...")
-    dataset = build_dataset(restaurants, "Foods Log.md")
+    dataset = build_dataset(restaurants, "Foods Log.md", v=True)
 
     # Final Cleanup: resetting index and re-ordering columns
+    print("Cleaning data...")
     data = clean_dataset(dataset)
 
     print("Saving...")
-    data.to_excel("Nutritional Facts - Specials.xlsx")
+    data.to_excel("Nutritional Facts - Sampling.xlsx")
     print(f"Finished in {time.time() - start} seconds!")
 
     return data
@@ -285,3 +290,7 @@ def main(rebuild=False):
 
 if __name__ == "__main__":
     main(True)
+
+# todo: potentially relax constraints according to scale of Healthy Eating Index
+# todo: try relaxing integer constraints for decision variables on foods
+# todo: remove null entries (chick-fil-a burrito)
