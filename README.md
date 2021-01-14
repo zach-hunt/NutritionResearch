@@ -10,7 +10,7 @@ Check out ```restaurants.txt``` for the list of 40 restaurants* with data on Fas
 
 Read through ```main.py``` to see how the scraping was done, or take a look at the results in ```Nutritional Facts.xlsm```!
 
-######* Fast Food Nutrition also has data for Starbucks, which was not considered *
+###### * Fast Food Nutrition also has data for Starbucks, which was not considered *
 
 ### Data Manipulation
 Categorization and cleanup was handled by Python and VBA.
@@ -27,7 +27,7 @@ of both milk (6 options) and size (4 options), rather than just being a singular
 Adapting to handle this is not egregious, given that things like McDonald's successfully handle
 size selection for fries and drinks, etc.
 
-Notably, because no threading has been attempted, the download process for the 6000+ food entries is more than half an hour.
+Notably, because no threading has been attempted, the download process for the 6000+ food entries is around 40 minutes.
 This is largely independent of connection speed, having more to do with a reasonable ping delay repeated
 for every food, drink, condiment, and corresponding size.
 
