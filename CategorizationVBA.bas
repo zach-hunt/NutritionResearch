@@ -20,7 +20,7 @@ Sub clean_categories()
     For iCat = 1 To iCats
         Set curr_cat = main_cats.Cells(iCat, 1)
         If curr_cat.Value = problem_cat Then
-            For Each word In split(curr_cat.Offset(0, 1).Value, " ")
+            For Each word In Split(curr_cat.Offset(0, 1).Value, " ")
                 For Each split_word In splits
                     If Replace(word, ",", "") = split_word Then
                         curr_cat.Value = split_word & "s"
@@ -30,6 +30,7 @@ Sub clean_categories()
             Next word
         End If
     Next iCat
+    Worksheets("Category Mappings").Activate
     
 End Sub
 
@@ -63,8 +64,8 @@ Sub categorize()
         Else
             partial_match = False
             For Each cat_key In defined.Keys()
-                For Each cat_word In split(cat_key, " ")
-                    For Each curr_cat_word In split(curr_cat.Value, " ")
+                For Each cat_word In Split(cat_key, " ")
+                    For Each curr_cat_word In Split(curr_cat.Value, " ")
                         If curr_cat_word = cat_word Then
                             curr_cat.Offset(0, 1).Value = defined(cat_key)
                             partial_match = True
@@ -75,14 +76,16 @@ Sub categorize()
             Next cat_key
 
             If Not partial_match Then
-                new_cat = InputBox("Please select a category for " & curr_cat.Value, "New Label!")
-                defined.Add Replace(curr_cat.Value, " and ", " "), new_cat
-                Debug.Print "defined.Add """ & Replace(curr_cat.Value, " and ", " ") & """, " & """" & new_cat & """"
-                curr_cat.Offset(0, 1).Value = new_cat
+                If curr_cat.Value <> "Category" And curr_cat.Value <> "0" Then
+                    new_cat = InputBox("Please select a category for " & curr_cat.Value, "New Label!")
+                    defined.Add Replace(curr_cat.Value, " and ", " "), new_cat
+                    Debug.Print "defined.Add """ & Replace(curr_cat.Value, " and ", " ") & """, " & """" & new_cat & """"
+                    curr_cat.Offset(0, 1).Value = new_cat
+                End If
             End If
         End If
     Next curr_cat
-    
+    Worksheets("Category Mappings").Activate
 
 End Sub
 
@@ -187,4 +190,27 @@ Sub match()
         Next j
     Next i
 
+    Worksheets("Category Mappings").Activate
+    
+End Sub
+
+
+Sub replace_data_commas()
+
+    Sheet1.Activate
+    Dim rData As Range, rCell As Variant, found As Boolean
+    Set rData = Range("A2", Range("A2").End(xlDown).Offset(0, 18)).Offset(0, 5)
+    found = True
+    Do
+        Set rCell = rData.Find(",", , xlValues, xlPart)
+        If Not rCell Is Nothing Then
+            rCell.Value = Replace(rCell.Value, ",", ".")
+            found = True
+        Else
+            found = False
+        End If
+    Loop While found
+    
+    Worksheets("Category Mappings").Activate
+    
 End Sub
