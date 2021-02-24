@@ -275,7 +275,7 @@ def main(rebuild=False):
     restaurants = get_restaurants(base_url, filename)
 
     print("Downloading...")
-    dataset = build_dataset(restaurants, "Foods Log.md", v=True)
+    dataset = build_dataset(restaurants, "./References/Foods Log.md", v=True)
 
     # Final Cleanup: resetting index and re-ordering columns
     print("Cleaning data...")

@@ -1,2 +1,0 @@
-#McDonald's,McDonalds
-#Starbucks,Starbucks
