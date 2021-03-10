@@ -245,6 +245,7 @@ def clean_dataset(dataset: pd.DataFrame, drop_null=True) -> pd.DataFrame:
     data = data.reindex(columns=cols)
     if drop_null:
         data.drop(data[data["Calories"] == "?"].index, inplace=True)
+
     return data
 
 
@@ -265,7 +266,7 @@ def log(text: str, ttype: str, log_file=None, log_console=True) -> None:
 
 def main(rebuild=False):
     if not rebuild:
-        data = pd.read_excel("Nutritional Facts.xlsx")
+        data = pd.read_excel("Nutritional Facts - Raw Data.xlsx")
         return data
 
     print("Initializing...")
@@ -282,15 +283,11 @@ def main(rebuild=False):
     data = clean_dataset(dataset)
 
     print("Saving...")
-    data.to_excel("Nutritional Facts - Sampling.xlsx")
+    data.to_excel("Nutritional Facts - Raw Data.xlsx", index=False)
     print(f"Finished in {time.time() - start} seconds!")
 
     return data
 
 
 if __name__ == "__main__":
-    main(True)
-
-# todo: potentially relax constraints according to scale of Healthy Eating Index
-# todo: try relaxing integer constraints for decision variables on foods
-# todo: remove null entries (chick-fil-a burrito)
+    main()
