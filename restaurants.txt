@@ -1,6 +1,7 @@
 Arby's,Arbys
 Baskin-Robbins,Baskin-Robbins
 Blimpie,Blimpie
+Bojangles,Bojangles
 Boston Market,Boston-Market
 Buffalo Wild Wings,Buffalo-Wild-Wings
 Burger King,Burger-King
@@ -17,6 +18,7 @@ Godfather's Pizza,Godfathers-Pizza
 Hardee's,Hardees
 In-N-Out Burger,In-N-Out-Burger
 Jack in the Box,Jack-in-the-Box
+Jersey Mike's,Jersey-Mikes
 Jimmy Johns,Jimmy-Johns
 KFC,KFC
 Little Caesars,Little-Caesars
@@ -29,7 +31,9 @@ Papa John's,Papa-Johns
 Pizza Hut,Pizza-Hut
 Popeyes,Popeyes
 Quiznos,Quiznos
+Raising Cane's,Raising-Canes
 Red Lobster,Red-Lobster
+Shake Shack,Shake-Shack
 Smashburger,Smashburger
 Sonic,Sonic
 #Starbucks,Starbucks
@@ -38,4 +42,5 @@ Taco Bell,Taco-Bell
 Taco John's,Taco-Johns
 Wendy's,Wendys
 Whataburger,Whataburger
+Wingstop,Wingstop
 Zaxby's,Zaxbys
