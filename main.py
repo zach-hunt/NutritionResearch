@@ -89,9 +89,13 @@ def food_info(food_url: str) -> pd.DataFrame:
     return df
 
 
-def get_restaurants(base_url: str, source_filename) -> dict:
-    with open(source_filename, "r") as r:
-        restaurants = {(splitline := line.split(","))[0]: base_url + splitline[1].strip("\n") for line in r.readlines()}
+def get_restaurants(base_url: str) -> dict:
+    url = r"https://fastfoodnutrition.org"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"}
+    r = requests.get(url, headers=headers)
+    soup = BeautifulSoup(r.text, 'html.parser').find(attrs={"class": "d-lg-block"})
+    res_list = list(soup.stripped_strings)[1:]
+    restaurants = {res: base_url + res.replace(r"'", "").replace(" ", "-") for res in res_list}
     return restaurants
 
 
@@ -118,6 +122,7 @@ def star_drink_facts(food_inf: bs4.element.Tag) -> pd.DataFrame:
 
 
 def starbucks(url: str, log_file=None, v: bool=True) -> pd.DataFrame:
+    # FIXME: Never run because manually skipped in build_dataset because this function doesn't work :)
     categories = get_categories(url)
     items = pd.DataFrame()
     for cat in categories:
@@ -205,13 +210,11 @@ def build_dataset(restaurants: dict, log_filename=None, v: bool = True) -> pd.Da
         log_file = None
     dataset = pd.DataFrame()
     skips = {}
-    special_cases = {"Chick-fil-A": pictured, "McDonald's": pictured}  # "Starbucks": starbucks}
+    special_cases = {"Chick-fil-A": pictured, "McDonald's": pictured, "Starbucks": starbucks}
     for restaurant, url in restaurants.items():
-        if restaurant[0] == "#":
+        if restaurant in special_cases.keys():
             skips.update({restaurant: url})
             continue
-        # else:
-        #     continue
         log(restaurant, "Restaurant", log_file, v)
         categories = get_categories(url)
         for cat in categories:
@@ -219,21 +222,23 @@ def build_dataset(restaurants: dict, log_filename=None, v: bool = True) -> pd.Da
             foods["Restaurant"] = restaurant
             dataset = dataset.append(foods)
     for restaurant, url in skips.items():
-        if (res := restaurant[1:]) in special_cases.keys():
-            log(res, "Restaurant", log_file, v)
-            special_row = special_cases[res](url, log_file, v)
-            special_row.rename(columns={col: col.replace("Pct", "%") for col in special_row.columns}, inplace=True)
-            special_row["Restaurant"] = res
-            dataset = dataset.append(special_row)
-        else:
+        if restaurant == "Starbucks":  # TODO: Remove if / once the Starbucks function works
             log(f"\n\nCannot handle special case {restaurant}: "
                 "no function defined in special_cases. Make sure the cases match.", "", log_file)
+            continue
+
+        log(restaurant, "Restaurant", log_file, v)
+        special_row = special_cases[restaurant](url, log_file, v)
+        special_row.rename(columns={col: col.replace("Pct", "%") for col in special_row.columns}, inplace=True)
+        special_row["Restaurant"] = restaurant
+        dataset = dataset.append(special_row)
+
     if log_filename:
         log_file.close()
     return dataset
 
 
-def clean_dataset(dataset: pd.DataFrame, drop_null=True) -> pd.DataFrame:
+def clean_dataset(dataset: pd.DataFrame) -> pd.DataFrame:
     data = dataset.reset_index()
     if "index" in data.columns:
         data.drop("index", axis=1, inplace=True)
@@ -241,10 +246,8 @@ def clean_dataset(dataset: pd.DataFrame, drop_null=True) -> pd.DataFrame:
             'Calories From Fat', 'Calories', 'Total Fat', 'Saturated Fat', 'Trans Fat',
             'Cholesterol', 'Sodium', 'Total Carbohydrates', 'Dietary Fiber', 'Sugars', 'Protein',
             'Total Fat %', 'Saturated Fat %', 'Cholesterol %', 'Sodium %', 'Total Carbohydrates %',
-            'Dietary Fiber %', 'Protein %', 'Vitamin A %', 'URL']
+            'Dietary Fiber %', 'Protein %', 'Vitamin A %', 'Vitamin C %', 'URL']
     data = data.reindex(columns=cols)
-    if drop_null:
-        data.drop(data[data["Calories"] == "?"].index, inplace=True)
 
     return data
 
@@ -272,8 +275,7 @@ def main(rebuild=False):
     print("Initializing...")
     start = time.time()
     base_url = r"https://fastfoodnutrition.org/"
-    filename = "restaurants.txt"
-    restaurants = get_restaurants(base_url, filename)
+    restaurants = get_restaurants(base_url)
 
     print("Downloading...")
     dataset = build_dataset(restaurants, "./References/Foods Log.md", v=True)
@@ -290,4 +292,4 @@ def main(rebuild=False):
 
 
 if __name__ == "__main__":
-    main()
+    main(True)
