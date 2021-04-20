@@ -8,7 +8,7 @@
 	* Buffalo Roast Chicken Sandwich
 	* Chicken Bacon Swiss Sandwich
 	* Chicken Cheddar Ranch Sandwich
-	* Chicken Cordon Bleu – Roast
+	* Chicken Cordon Bleu â€“ Roast
 	* Chicken Tenders
 	* Classic Crispy Chicken Sandwich
 	* Classic French Dip & Swiss
@@ -234,8 +234,8 @@
 	* White Chunk Macadamia Cookie
 - Grab-N-Go
 	* Brownie a la Mode
-	* Cake Bites – Chocolate Dipped Strawberry
-	* Cake Bites – Love Potion #31®
+	* Cake Bites â€“ Chocolate Dipped Strawberry
+	* Cake Bites â€“ Love Potion #31Â®
 	* Cake Bites - Chocolate Mint
 	* Cake Bites - Double Chocolate
 	* Cake Bites - Praline Caramel
@@ -243,13 +243,13 @@
 	* Chocolate Dipped Strawberry 1/8 cake
 	* Chocolate Mint 1/8 cake
 	* Double Chocolate Chip 1/16 cake
-	* Double Chocolate OREO® 1/8 cake
+	* Double Chocolate OREOÂ® 1/8 cake
 	* Mini Cone - Chocolate Chip Ice Cream
 	* Mini Cone - Gold Medal Ribbon Ice Cream
 	* Mini Cone - Rainbow Sherbet
 	* Mini Cone - Vanilla Ice Cream
 	* Mini Cone - Very Berry Strawberry Ice Cream
-	* OREO® Cookie 1/16 cake
+	* OREOÂ® Cookie 1/16 cake
 	* Soft Serve Cookie Sandwich 1 Sandwich
 	* Soft Serve Cookie Sandwich with Sprinkles
 	* Strawberry 'n Cream Ice Cream Cake 1/8 cake
@@ -567,7 +567,7 @@
 	* Thai Curry Boneless Wings
 	* Wild Boneless Wings
 - Burgers & Sandwiches
-	* Bayou Po’ Boy
+	* Bayou Poâ€™ Boy
 	* BBQ Chicken Sandwich
 	* Big Jack Daddy Burger
 	* Boston Lager Burger
@@ -594,7 +594,7 @@
 	* Desert Heat Cauliflower Wings
 	* Honey BBQ Cauliflower Wings
 	* Hot Cauliflower Wings
-	* Jammin’ Jalapeno Cauliflower Wings
+	* Jamminâ€™ Jalapeno Cauliflower Wings
 	* Lemon Pepper Sauce Cauliflower Wings
 	* Lemon Pepper Seasoning Cauliflower Wings
 	* Mango Habanero Cauliflower Wings
@@ -701,13 +701,13 @@
 	* French Toast Sandwich
 	* French Toast Sticks
 	* Fully Loaded Biscuit
-	* Fully Loaded CROISSAN'WICH®
+	* Fully Loaded CROISSAN'WICHÂ®
 	* Ham, Egg, & Cheese Biscuit
 	* Hash Browns
 	* Impossible Croissan'wich
 	* Impossible Sausage Biscuit
 	* Kids Oatmeal
-	* King CROISSAN'WICH®
+	* King CROISSAN'WICHÂ®
 	* Pancake Platter w/ Sausage & 1 oz Breakfast Syrup
 	* Pancakes (3) and 1 oz breakfast syrup
 	* Quaker Oatmeal
@@ -784,55 +784,55 @@
 ### Carl's Jr
 - Thickburgers & Sandwiches
 	* A.1. Double Cheeseburger
-	* Bacon Swiss Crispy Chicken® Sandwich
+	* Bacon Swiss Crispy ChickenÂ® Sandwich
 	* Beyond BBQ Cheeseburger
 	* Beyond Famous Star with Cheese
 	* Big Chicken Fillet Sandwich
 	* Big Hamburger
 	* California Classic Double Cheeseburger
-	* Charbroiled BBQ Chicken™ Sandwich
-	* Charbroiled Chicken Club™ Sandwich
-	* Charbroiled Santa Fe Chicken™ Sandwich
+	* Charbroiled BBQ Chickenâ„¢ Sandwich
+	* Charbroiled Chicken Clubâ„¢ Sandwich
+	* Charbroiled Santa Fe Chickenâ„¢ Sandwich
 	* Double Cheeseburger
-	* Double Western Bacon Cheeseburger®
-	* Famous Star® with Cheese
+	* Double Western Bacon CheeseburgerÂ®
+	* Famous StarÂ® with Cheese
 	* Fiery Chicken Sandwich
-	* Guacamole Bacon Thickburger®
+	* Guacamole Bacon ThickburgerÂ®
 	* Jalapeno Burger
 	* Jalapeno Double Cheeseburger
-	* Jalapeno Thickburger®
+	* Jalapeno ThickburgerÂ®
 	* Kid's Cheeseburger
 	* Kid's Hamburger
-	* Low Carb Thickburger®
+	* Low Carb ThickburgerÂ®
 	* Monster Angus Thickburger
-	* Original Six Dollar Thickburger®
+	* Original Six Dollar ThickburgerÂ®
 	* Redhook Beer-battered Cod Fish Sandwich
 	* Spicy Beyond BBQ Cheeseburger
 	* Spicy Chicken Sandwich
 	* Spicy Western Cheeseburger
 	* Steakhouse Angus Thickburger
-	* Super Star® with Cheese
-	* The Big Carl®
-	* Western Bacon Cheeseburger®
+	* Super StarÂ® with Cheese
+	* The Big CarlÂ®
+	* Western Bacon CheeseburgerÂ®
 - Breakfast
 	* Bacon & Egg Burrito
 	* Bacon, Egg & Cheese Biscuit
 	* Beyond Sausage Burrito
 	* Beyond Sausage Egg & Cheese Biscuit
-	* Big Country® Breakfast Burrito
+	* Big CountryÂ® Breakfast Burrito
 	* Biscuit 'N' Gravy
 	* Breakfast Burger
 	* French Toast Dips
 	* Grilled Cheese Breakfast Sandwich
 	* Hash Brown Nuggets
 	* Loaded Breakfast Burrito
-	* Made From Scratch Biscuit™
+	* Made From Scratch Biscuitâ„¢
 	* Monster Biscuit
 	* Sausage, Egg & Cheese Biscuit
 	* Steak & Egg Burrito
 - Chicken Strips & Nuggets
-	* Hand-Breaded Chicken Tenders™
-	* Kid's Hand-Breaded Chicken Tenders™ (2 pieces)
+	* Hand-Breaded Chicken Tendersâ„¢
+	* Kid's Hand-Breaded Chicken Tendersâ„¢ (2 pieces)
 - Desserts
 	* Chocolate Cake
 	* Chocolate Chip Cookies (2)
@@ -859,8 +859,8 @@
 - Hand-Scooped Ice Cream Shakes & Malts
 	* Chocolate Malt
 	* Chocolate Shake
-	* OREO® Cookie Malt
-	* OREO® Cookie Shake
+	* OREOÂ® Cookie Malt
+	* OREOÂ® Cookie Shake
 	* Strawberry Malt
 	* Strawberry Shake
 	* Vanilla Malt
@@ -875,9 +875,9 @@
 - Salads (without dressing)
 	* Charbroiled Chicken Salad
 - Sides
-	* CrissCut® Fries
+	* CrissCutÂ® Fries
 	* Fried Zucchini
-	* Jalapeno Poppers®
+	* Jalapeno PoppersÂ®
 	* Natural-Cut Fries
 	* Onion Rings
 	* Side Salad
@@ -1127,19 +1127,19 @@
 	* Chocolate Milk, Low Fat
 	* Diet Dr Pepper
 	* Diet Mountain Dew
-	* Diet Pepsi®
+	* Diet PepsiÂ®
 	* Diet Root Beer
-	* Dr. Pepper®
+	* Dr. PepperÂ®
 	* Fresh Brewed Tea
 	* Milk
-	* Mountain Dew®
-	* Pepsi®
+	* Mountain DewÂ®
+	* PepsiÂ®
 	* Root Beer
 	* Sierra Mist
-	* Tropicana Fruit Punch®
+	* Tropicana Fruit PunchÂ®
 	* Tropicana Light Lemonade
 	* Tropicana Pink Lemonade
-	* Wild Cherry Pepsi®
+	* Wild Cherry PepsiÂ®
 - Frozen Custard Shoppe To Go
 	* Chocolate Frozen Custard
 	* Vanilla Frozen Custard
@@ -1239,7 +1239,7 @@
 	* Culver's Hot Caramel
 	* Culver's Hot Fudge
 	* Flat Pie Chips
-	* Heath® Toffee Chunks
+	* HeathÂ® Toffee Chunks
 	* Kit Kat
 	* M&M Minis
 	* Mango Fruit Infusion
@@ -1247,16 +1247,16 @@
 	* Nerds
 	* Nestle Crunch
 	* Novelty Coating
-	* Oreo® Cookie Crumbs
+	* OreoÂ® Cookie Crumbs
 	* Peach
 	* Peanut Butter
 	* Peanuts, Dry Roast Seasoned
 	* Pecan Halves
 	* Raspberry
-	* Reese's Pieces® Minis
-	* Reese's® Peanut Butter Cups
+	* Reese's PiecesÂ® Minis
+	* Reese'sÂ® Peanut Butter Cups
 	* Salted Caramel Topping
-	* Snickers® Candy Bar Pieces
+	* SnickersÂ® Candy Bar Pieces
 	* Sprinkles, Blue and White
 	* Strawberry, Sliced
 	* Whipped Cream
@@ -1364,9 +1364,9 @@
 	* Mango Misty Slush
 	* Tropical Lemonade Twisty Misty Slush
 - MooLattes
-	* Caramel MooLatté
-	* Mocha MooLatté
-	* Vanilla MooLatté
+	* Caramel MooLattÃ©
+	* Mocha MooLattÃ©
+	* Vanilla MooLattÃ©
 - Novelties
 	* Brownie & Oreo Cupfection
 	* Buster Bar
@@ -2051,30 +2051,30 @@
 	* Vanilla Shake
 ### Jack in the Box
 - Burgers & More
-	* Bacon & Swiss Buttery Jack™
-	* Bacon Ultimate Cheeseburger™
+	* Bacon & Swiss Buttery Jackâ„¢
+	* Bacon Ultimate Cheeseburgerâ„¢
 	* Cheeseburger
 	* Chili Cheeseburger
-	* Classic Buttery Jack™
+	* Classic Buttery Jackâ„¢
 	* Double Jack
 	* Hamburger
 	* Jr Jumbo Jack
 	* Jr. Bacon Cheeseburger
-	* Jumbo Jack®
+	* Jumbo JackÂ®
 	* Quad Bonus Jack
-	* Sourdough Jack®
+	* Sourdough JackÂ®
 	* Sourdough Patty Melt
 	* Spicy Sriracha Burger
 	* Triple Bonus Jack
-	* Ultimate Cheeseburger™
+	* Ultimate Cheeseburgerâ„¢
 - Breakfast
-	* Bacon Breakfast Jack®
+	* Bacon Breakfast JackÂ®
 	* Bacon, Egg & Cheese Biscuit
 	* Bagel Breakfast Sandwich
 	* Biscuit, A La Carte
-	* Breakfast Jack®
+	* Breakfast JackÂ®
 	* Cheddar Biscuit Breakfast Sandwich
-	* Extreme Sausage® Sandwich
+	* Extreme SausageÂ® Sandwich
 	* French Toast Sticks
 	* French Toast Sticks Platter
 	* Grande Sausage Breakfast Burrito
@@ -2085,7 +2085,7 @@
 	* Meat Lovers Breakfast Burrito
 	* Mini Pancakes
 	* Sausage Biscuit
-	* Sausage Breakfast Jack®
+	* Sausage Breakfast JackÂ®
 	* Sausage Croissant
 	* Sausage, Egg & Cheese Biscuit
 	* Sourdough Breakfast Sandwich
@@ -2108,7 +2108,7 @@
 	* Deluxe Fish Sandwich
 	* Fish Sandwich
 	* Homestyle Ranch Chicken Club
-	* Jack's Spicy Chicken®
+	* Jack's Spicy ChickenÂ®
 	* Popcorn Chicken
 	* Popcorn Chicken Big Box
 	* Sourdough Grilled Chicken Club
@@ -2117,33 +2117,33 @@
 	* Barbecue Dipping Sauce
 	* Buttermilk House Dipping Sauce
 	* Fire Roasted Salsa
-	* Frank's® RedHot® Buffalo Dipping Sauce
+	* Frank'sÂ® RedHotÂ® Buffalo Dipping Sauce
 	* Honey Mustard Dipping Sauce
-	* Log Cabin® Syrup
+	* Log CabinÂ® Syrup
 	* Sweet & Sour Dipping Sauce
 	* Tartar Sauce
 	* Teriyaki Dipping Sauce
 - Drinks
-	* Barq's® Root Beer
+	* Barq'sÂ® Root Beer
 	* Bottled Water
 	* Chocolate Lowfat Milk Chug
-	* Coca-Cola Classic®
-	* Diet Coke®
-	* Diet Dr Pepper®
-	* Dr Pepper®
-	* Fanta® Orange
-	* Fanta® Strawberry
-	* Gold Peak® Fresh Brewed Iced Tea
-	* Hi-C® Fruit Punch
+	* Coca-Cola ClassicÂ®
+	* Diet CokeÂ®
+	* Diet Dr PepperÂ®
+	* Dr PepperÂ®
+	* FantaÂ® Orange
+	* FantaÂ® Strawberry
+	* Gold PeakÂ® Fresh Brewed Iced Tea
+	* Hi-CÂ® Fruit Punch
 	* Iced Coffee
 	* Iced Salted Caramel Mocha
-	* Kona Classic® Coffee
-	* Kona Classic® Decaf Coffee
-	* Minute Maid® Lemonade
-	* Minute Maid® Orange Juice 10 fl oz.
+	* Kona ClassicÂ® Coffee
+	* Kona ClassicÂ® Decaf Coffee
+	* Minute MaidÂ® Lemonade
+	* Minute MaidÂ® Orange Juice 10 fl oz.
 	* Reduced Fat Milk Chug 2%
 	* Salted Caramel Mocha
-	* Sprite®
+	* SpriteÂ®
 - Jack's Munchies Meal Items
 	* Chick-N-Tater Melt Munchie Meal
 	* Halfsies Fries
@@ -2189,12 +2189,12 @@
 	* Peppercorn Mayo Sauce (1.00 oz.)
 	* Sun Dried Tomato Sauce (0.57 oz.)
 - Shakes & Desserts
-	* Chocolate Overload™ Cake
+	* Chocolate Overloadâ„¢ Cake
 	* Chocolate Shake w/ Whipped Topping
 	* Donut Holes
 	* Mini Churros
 	* New York Style Cheesecake
-	* Oreo® Cookie Shake w/ Whipped Topping
+	* OreoÂ® Cookie Shake w/ Whipped Topping
 	* Strawberry Shake w/ Whipped Topping
 	* Vanilla Shake w/ Whipped Topping
 - Snacks & Sides
@@ -2293,24 +2293,24 @@
 	* Lay's Salt & Vinegar Chips
 	* Lay's Sour Cream and Onion Chips
 	* Miss Vickie's BBQ Chips
-	* Miss Vickie's Jalapeño Chips
+	* Miss Vickie's JalapeÃ±o Chips
 	* Miss Vickie's Sea Salt & Vinegar Chips
 	* Miss Vickie's Sour Cream & Herb Chips
 	* Ruffles Cheddar & Sour Cream Chips
 	* Sun Chips
 ### Jimmy Johns
 - Sub Sandwiches
-	* Beach Club®
+	* Beach ClubÂ®
 	* Big John
-	* Billy Club®
-	* Bootlegger Club®
-	* Club Lulu®
-	* Club Tuna®
-	* Country Club®
+	* Billy ClubÂ®
+	* Bootlegger ClubÂ®
+	* Club LuluÂ®
+	* Club TunaÂ®
+	* Country ClubÂ®
 	* Gourmet Smoked Ham Club
-	* Gourmet Veggie Club®
-	* Hunter's Club®
-	* Italian Night Club®
+	* Gourmet Veggie ClubÂ®
+	* Hunter's ClubÂ®
+	* Italian Night ClubÂ®
 	* JJ BLT
 	* Little John #1
 	* Little John #2
@@ -2327,10 +2327,10 @@
 	* Slim 6 Double provolone
 	* Smokin' Kickin' Chicken
 	* The Frenchie
-	* The J.J. Gargantuan®
+	* The J.J. GargantuanÂ®
 	* Totally Tuna
 	* Turkey Tom
-	* Ultimate Porker™
+	* Ultimate Porkerâ„¢
 	* Vegetarian
 	* Vito
 - Drinks
@@ -2374,12 +2374,12 @@
 	* Spicy Crispy- Whole Wing
 - Desserts
 	* Apple Turnover
-	* Café Valley Bakery Chocolate Chip Cake
-	* Café Valley Bakery Lemon Cake
-	* Café Valley Bakery® Mini Chocolate Chip Cake
-	* Café Valley Bakery® Mini Lemon Cake
+	* CafÃ© Valley Bakery Chocolate Chip Cake
+	* CafÃ© Valley Bakery Lemon Cake
+	* CafÃ© Valley BakeryÂ® Mini Chocolate Chip Cake
+	* CafÃ© Valley BakeryÂ® Mini Lemon Cake
 	* Cinnabon Dessert Biscuits
-	* Oreo Cookies and Crème Pie Slice
+	* Oreo Cookies and CrÃ¨me Pie Slice
 	* Reese's Peanut Butter Pie Slice
 	* Sweet Life Chocolate Chip Cookie
 	* Sweet Life Oatmeal Raisin Cookie
@@ -2397,12 +2397,12 @@
 - Popcorn Chicken and Bites
 	* Popcorn Chicken Nuggets
 - Pot Pie, Bowls & Value Boxes
-	* Chicken Littles® Go Cup
+	* Chicken LittlesÂ® Go Cup
 	* Chicken Pot Pie
-	* Extra Crispy™ Tenders Go Cup
-	* Fiery Buffalo Hot Wings™ Go Cup
-	* HBBQ Hot Wings™ Go Cup
-	* Hot Wings™ Go Cup
+	* Extra Crispyâ„¢ Tenders Go Cup
+	* Fiery Buffalo Hot Wingsâ„¢ Go Cup
+	* HBBQ Hot Wingsâ„¢ Go Cup
+	* Hot Wingsâ„¢ Go Cup
 	* KFC Famous Bowls-Mashed Potato with Gravy
 	* Mac & Cheese Bowl
 	* Popcorn Chicken Nuggets Go Cup
@@ -2433,7 +2433,7 @@
 	* Cornbread Muffin
 	* Creamy Buffalo Dipping Sauce Cup
 	* Creamy Buffalo Dipping Sauce Cup
-	* Finger Lickin' Good™ Dipping Sauce Cup
+	* Finger Lickin' Goodâ„¢ Dipping Sauce Cup
 	* Gravy (with Bites)
 	* Green Beans
 	* Mac & Cheese
@@ -2446,9 +2446,9 @@
 	* Secret Recipe Fries
 	* Sweet Kernel Corn
 - Strips & Filets
-	* Extra Crispy™ Tenders (1) - Kids
-	* Extra Crispy™ Tenders (2)
-	* Extra Crispy™ Tenders (3)
+	* Extra Crispyâ„¢ Tenders (1) - Kids
+	* Extra Crispyâ„¢ Tenders (2)
+	* Extra Crispyâ„¢ Tenders (3)
 	* Nashville Hot Extra Crispy Tender
 ### Little Caesars
 - Round Pizzas
@@ -2505,24 +2505,24 @@
 	* Crab Cake
 	* Popcorn Shrimp
 - Beverages
-	* Diet Mountain Dew®
-	* Diet Pepsi®
-	* Dr. Pepper®
+	* Diet Mountain DewÂ®
+	* Diet PepsiÂ®
+	* Dr. PepperÂ®
 	* Iced Tea (unsweetened)
-	* Lipton® Raspberry Tea
-	* Mountain Dew®
-	* Pepsi®
-	* Sierra Mist®
-	* Tropicana® Fruit Punch
-	* Tropicana® Lemonade
-	* Tropicana® Twister® Orange
-	* Wild Cherry Pepsi®
+	* LiptonÂ® Raspberry Tea
+	* Mountain DewÂ®
+	* PepsiÂ®
+	* Sierra MistÂ®
+	* TropicanaÂ® Fruit Punch
+	* TropicanaÂ® Lemonade
+	* TropicanaÂ® TwisterÂ® Orange
+	* Wild Cherry PepsiÂ®
 - Desserts
 	* Chocolate Cream Pie
 	* Pecan Pie
 	* Pineapple Cream Pie
 - Iceflow Lemonade
-	* Iceflow™ Lemonade
+	* Iceflowâ„¢ Lemonade
 	* Strawberry Iceflow Lemonade
 - Sandwiches & More
 	* Baja Chicken Strip Taco
@@ -2652,19 +2652,19 @@
 	* Shanghai Angus Steak
 	* Wok-Seared Steak & Shrimp
 - Beverages
-	* China Mist Iced Tea®
-	* Diet Pepsi®
-	* Dr Pepper®
-	* Lipton Brisk Raspberry®
-	* Lipton No Calorie Brisk Peach®
-	* Mountain Dew®
-	* Mug Root Beer®
-	* Pepsi®
-	* Sierra Mist®
-	* Sobe Lean®
-	* Tropicana Fruit Punch®
-	* Tropicana Lemonade®
-	* Tropicana Pink Lemonade®
+	* China Mist Iced TeaÂ®
+	* Diet PepsiÂ®
+	* Dr PepperÂ®
+	* Lipton Brisk RaspberryÂ®
+	* Lipton No Calorie Brisk PeachÂ®
+	* Mountain DewÂ®
+	* Mug Root BeerÂ®
+	* PepsiÂ®
+	* Sierra MistÂ®
+	* Sobe LeanÂ®
+	* Tropicana Fruit PunchÂ®
+	* Tropicana LemonadeÂ®
+	* Tropicana Pink LemonadeÂ®
 - Kid's Meal
 	* Kids Asian Chicken
 	* Kids Beijing Beef
@@ -2807,20 +2807,20 @@
 	* Apple Pie (2 pies)
 	* Cinnabon Mini Rolls
 	* Cinnamon Sticks
-	* HERSHEY'S® Chocolate Dunkers® (2 pieces)
-	* HERSHEY'S® Chocolate Sauce (1.5 oz)
+	* HERSHEY'SÂ® Chocolate DunkersÂ® (2 pieces)
+	* HERSHEY'SÂ® Chocolate Sauce (1.5 oz)
 	* White Icing Dipping Cup (2 oz)
 - Drinks
-	* Diet Pepsi® (Large)
-	* Diet Pepsi® (Medium)
-	* Diet Pepsi® (Small)
-	* Mountain Dew®
-	* Pepsi® (Large)
-	* Pepsi® (Medium)
-	* Pepsi® (Small)
-	* Sierra Mist® (Large)
-	* Sierra Mist® (Medium)
-	* Sierra Mist® (Small)
+	* Diet PepsiÂ® (Large)
+	* Diet PepsiÂ® (Medium)
+	* Diet PepsiÂ® (Small)
+	* Mountain DewÂ®
+	* PepsiÂ® (Large)
+	* PepsiÂ® (Medium)
+	* PepsiÂ® (Small)
+	* Sierra MistÂ® (Large)
+	* Sierra MistÂ® (Medium)
+	* Sierra MistÂ® (Small)
 - P'Zone Pizza
 	* Classic P'Zone
 	* Meaty P'Zone
@@ -2868,7 +2868,7 @@
 	* Cheese Stuffed Crust Pizza
 	* Chicken Supreme Stuffed Crust Pizza
 	* Meat Lover's Stuffed Crust Pizza
-	* Pepperoni Lover's® Pizza
+	* Pepperoni Lover'sÂ® Pizza
 	* Pepperoni Stuffed Crust Pizza
 	* Stuffed Crust Beyond Italian Sausage Pizza
 	* Stuffed Crust Great Beyond Pizza
@@ -2893,7 +2893,7 @@
 	* Thin 'n Crispy Pepperoni Pizza
 	* Thin 'n Crispy Super Supreme Pizza
 	* Thin 'n Crispy Supreme Pizza
-	* Thin 'n Crispy Ultimate Cheese Lover'sÂ® Pizza
+	* Thin 'n Crispy Ultimate Cheese Lover'sÃ‚Â® Pizza
 	* Thin 'n Crispy Veggie Lover's Pizza
 - Tuscani Pasta
 	* Chicken Alfredo Pasta
@@ -3132,7 +3132,7 @@
 	* Classic Margarita
 	* Cosmopolitan
 	* Dew Garita
-	* Grand PatrÃ³n Margarita
+	* Grand PatrÃƒÂ³n Margarita
 	* Lobsterita
 	* Long Island Iced Tea
 	* Malibu Hurricane
